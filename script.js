@@ -19,35 +19,56 @@ function getComputerChoice() {
 }
 getComputerChoice();
 
-function playRound(playerChoice, computerChoice) {
+// Play a single round, comparing the choices to determine a round winner;
+function playRound() {
+    let playerChoice = prompt("Rock, Paper or Scissors?", "");
+    let computerChoice = getComputerChoice();
+
     switch(playerChoice.toLowerCase()) {
         case "rock":
             if(computerChoice === "rock") {
-                return "It`s a Draw";
+                return {message: "It`s a Draw", result: "Draw"};
             } else if(computerChoice === "paper") {
-                return "You Lose! Paper beats Rock";
+                return {message: "You Lose! Paper beats Rock", result: "Lose"};
             } else {
-                return "You Win! Rock beats Scissors";
+                return {message: "You Win! Rock beats Scissors", result: "Win"};
             }
         case "paper":
             if(computerChoice === "rock") {
-                return "You Win! Paper beats Rock";
+                return {message: "You Win! Paper beats Rock", result: "Win"};
             } else if(computerChoice === "paper") {
-                return "It`s a Draw";
+                return {message: "It`s a Draw", result: "Draw"};
             } else {
-                return "You Lose! Rock beats Paper";
+                return {message: "You Lose! Rock beats Paper", result: "Lose"};
             }
         case "scissors":
             if(computerChoice === "rock") {
-                return "You Lose! Rock beats Scissors";
+                return {message: "You Lose! Rock beats Scissors", result: "Lose"};
             } else if(computerChoice === "paper") {
-                return "You Win! Scissors beats Paper";
+                return {message: "You Win! Scissors beats Paper", result: "Win"};
             } else {
-                return "It`s a Draw";
+                return {message: "It`s a Draw", result: "Draw"};
             }
     }
 }
 
-let playerChoice = getComputerChoice();
-let computerChoice = getComputerChoice();
-console.log(`player: ${playerChoice} computer: ${computerChoice} result: ${playRound(playerChoice, computerChoice)}`);
+
+function game() {
+    let [playerScore, computerScore] = [0, 0];
+
+    for(let i = 0; i < 5; i++) {
+        let roundResult = playRound();
+
+        switch(roundResult.result) {
+            case "Win":
+                playerScore++;
+                break;
+            case "Lose":
+                computerScore++;
+                break;   
+        }
+
+        console.log(`${roundResult.message} Score: ${playerScore} - ${computerScore}`);
+    }
+}
+game();

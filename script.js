@@ -1,3 +1,10 @@
+const WIN = "win";
+const LOSE = "lose";
+const DRAW = "draw";
+const ROCK = "rock";
+const PAPER = "paper";
+const SCISSORS = "scissors";
+
 // Determine the computer choice of rock, paper or scissors;
 function getComputerChoice() {
     let randomNum = Math.floor((Math.random() * 3));
@@ -5,13 +12,13 @@ function getComputerChoice() {
 
     switch(randomNum) {
         case 0:
-            choice = "rock";
+            choice = ROCK;
             break;
         case 1:
-            choice = "paper";
+            choice = PAPER;
             break;
         case 2:
-            choice = "scissors";
+            choice = SCISSORS;
             break;
     }
 
@@ -19,40 +26,40 @@ function getComputerChoice() {
 }
 getComputerChoice();
 
-// Play a single round, comparing the choices to determine a round winner;
+// Play a single round, comparing the choices to determine the round winner;
 function playRound() {
     let playerChoice = prompt("Rock, Paper or Scissors?", "");
     let computerChoice = getComputerChoice();
 
     switch(playerChoice.toLowerCase()) {
-        case "rock":
-            if(computerChoice === "rock") {
-                return {message: "It`s a Draw", result: "Draw"};
-            } else if(computerChoice === "paper") {
-                return {message: "You Lose! Paper beats Rock", result: "Lose"};
+        case ROCK:
+            if(computerChoice === ROCK) {
+                return {message: "It`s a Draw", result: DRAW};
+            } else if(computerChoice === PAPER) {
+                return {message: "You Lose! Paper beats Rock", result: LOSE};
             } else {
-                return {message: "You Win! Rock beats Scissors", result: "Win"};
+                return {message: "You Win! Rock beats Scissors", result: WIN};
             }
-        case "paper":
-            if(computerChoice === "rock") {
-                return {message: "You Win! Paper beats Rock", result: "Win"};
-            } else if(computerChoice === "paper") {
-                return {message: "It`s a Draw", result: "Draw"};
+        case PAPER:
+            if(computerChoice === ROCK) {
+                return {message: "You Win! Paper beats Rock", result: WIN};
+            } else if(computerChoice === PAPER) {
+                return {message: "It`s a Draw", result: DRAW};
             } else {
-                return {message: "You Lose! Rock beats Paper", result: "Lose"};
+                return {message: "You Lose! Rock beats Paper", result: LOSE};
             }
-        case "scissors":
-            if(computerChoice === "rock") {
-                return {message: "You Lose! Rock beats Scissors", result: "Lose"};
-            } else if(computerChoice === "paper") {
-                return {message: "You Win! Scissors beats Paper", result: "Win"};
+        case SCISSORS:
+            if(computerChoice === ROCK) {
+                return {message: "You Lose! Rock beats Scissors", result: LOSE};
+            } else if(computerChoice === PAPER) {
+                return {message: "You Win! Scissors beats Paper", result: WIN};
             } else {
-                return {message: "It`s a Draw", result: "Draw"};
+                return {message: "It`s a Draw", result: DRAW};
             }
     }
 }
 
-
+// Simulate 5 game rounds and keep scores;
 function game() {
     let [playerScore, computerScore] = [0, 0];
 
@@ -60,10 +67,10 @@ function game() {
         let roundResult = playRound();
 
         switch(roundResult.result) {
-            case "Win":
+            case WIN:
                 playerScore++;
                 break;
-            case "Lose":
+            case LOSE:
                 computerScore++;
                 break;   
         }

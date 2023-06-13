@@ -24,7 +24,6 @@ function getComputerChoice() {
 
     return choice;
 }
-getComputerChoice();
 
 // Play a single round, comparing the choices to determine the round winner;
 function playRound() {
@@ -59,9 +58,10 @@ function playRound() {
     }
 }
 
-// Simulate 5 game rounds and keep scores;
+// Simulate 5 game rounds and keep scores, log results to console;
 function game() {
-    let [playerScore, computerScore] = [0, 0];
+    let playerScore = 0;
+    let computerScore = 0;
 
     for(let i = 0; i < 5; i++) {
         let roundResult = playRound();

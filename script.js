@@ -5,6 +5,17 @@ const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
 
+const buttons = document.querySelectorAll("button");
+const resultsDiv = document.querySelector(".results");
+
+buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        let playerChoice = btn.classList.value;
+
+        playRound(playerChoice);
+    });
+})
+
 // Determine the computer choice of rock, paper or scissors;
 function getComputerChoice() {
     let randomNum = Math.floor((Math.random() * 3));
@@ -26,56 +37,66 @@ function getComputerChoice() {
 }
 
 // Play a single round, comparing the choices to determine the round winner;
-function playRound() {
-    let playerChoice = prompt("Rock, Paper or Scissors?", "");
+function playRound(playerChoice) {
     let computerChoice = getComputerChoice();
+    let result;
 
     switch(playerChoice.toLowerCase()) {
         case ROCK:
             if(computerChoice === ROCK) {
-                return {message: "It`s a Draw", result: DRAW};
+                result = {message: "It`s a Draw", result: DRAW};
             } else if(computerChoice === PAPER) {
-                return {message: "You Lose! Paper beats Rock", result: LOSE};
+                result = {message: "You Lose! Paper beats Rock", result: LOSE};
             } else {
-                return {message: "You Win! Rock beats Scissors", result: WIN};
+                result = {message: "You Win! Rock beats Scissors", result: WIN};
             }
+            break;
         case PAPER:
             if(computerChoice === ROCK) {
-                return {message: "You Win! Paper beats Rock", result: WIN};
+                result = {message: "You Win! Paper beats Rock", result: WIN};
             } else if(computerChoice === PAPER) {
-                return {message: "It`s a Draw", result: DRAW};
+                result = {message: "It`s a Draw", result: DRAW};
             } else {
-                return {message: "You Lose! Rock beats Paper", result: LOSE};
+                result = {message: "You Lose! Rock beats Paper", result: LOSE};
             }
+            break;
         case SCISSORS:
             if(computerChoice === ROCK) {
-                return {message: "You Lose! Rock beats Scissors", result: LOSE};
+                result = {message: "You Lose! Rock beats Scissors", result: LOSE};
             } else if(computerChoice === PAPER) {
-                return {message: "You Win! Scissors beats Paper", result: WIN};
+                result = {message: "You Win! Scissors beats Paper", result: WIN};
             } else {
-                return {message: "It`s a Draw", result: DRAW};
+                result = {message: "It`s a Draw", result: DRAW};
             }
+            break;
     }
+
+    displayRoundResult(result.message);
+    updateScore(result.result);
 }
 
-// Simulate 5 game rounds and keep scores, log results to console;
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
+// Writes the result of the round in the browser;
+function displayRoundResult(message) {
+    let newPara = document.createElement("p");
+    newPara.textContent = message;
 
-    for(let i = 0; i < 5; i++) {
-        let roundResult = playRound();
+    resultsDiv.appendChild(newPara);
+}
 
-        switch(roundResult.result) {
-            case WIN:
-                playerScore++;
-                break;
-            case LOSE:
-                computerScore++;
-                break;   
-        }
+let playerScore = 0;
+let computerScore = 0;
 
-        console.log(`${roundResult.message} Score: ${playerScore} - ${computerScore}`);
+// Updates the score shown in the browser;
+function updateScore(result) {
+    const playerSpam = document.querySelector(".playerScore");
+    const computerSpam = document.querySelector(".computerScore");
+    
+    switch(result) {
+        case WIN:
+            playerSpam.textContent = `Player: ${++playerScore}`;
+            break;
+        case LOSE:
+            computerSpam.textContent = `Computer: ${++computerScore}`;
+            break;   
     }
 }
-game();

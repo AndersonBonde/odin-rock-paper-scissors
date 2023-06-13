@@ -85,6 +85,7 @@ function displayRoundResult(message) {
 
 let playerScore = 0;
 let computerScore = 0;
+let maxScore = 5;
 
 // Updates the score shown in the browser;
 function updateScore(result) {
@@ -99,4 +100,30 @@ function updateScore(result) {
             computerSpam.textContent = `Computer: ${++computerScore}`;
             break;   
     }
+
+    checkForWinner();
+}
+
+function checkForWinner() {
+    if(playerScore >= maxScore) {
+        const winnerPara = document.createElement("p");
+        winnerPara.textContent = "Player wins!";
+        winnerPara.style.cssText = "color: green;";
+        
+        resultsDiv.appendChild(winnerPara);
+        disableButtons();
+    } else if(computerScore >= maxScore) {
+        const winnerPara = document.createElement("p");
+        winnerPara.textContent = "Computer wins!";
+        winnerPara.style.cssText = "color: red;";
+        
+        resultsDiv.appendChild(winnerPara);        
+        disableButtons();
+    }
+}
+
+function disableButtons() {
+    buttons.forEach(btn => {
+        btn.disabled = true;
+    })
 }

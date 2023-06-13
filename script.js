@@ -7,6 +7,8 @@ const SCISSORS = "scissors";
 
 const buttons = document.querySelectorAll("button");
 const resultsDiv = document.querySelector(".results");
+const playerScoreCard = document.querySelector(".playerScoreCard");
+const computerScoreCard = document.querySelector(".computerScoreCard");
 
 buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -14,6 +16,14 @@ buttons.forEach((btn) => {
 
         playRound(playerChoice);
     });
+})
+
+playerScoreCard.addEventListener("transitionend", () => {
+    playerScoreCard.classList.remove("playingGreen");
+})
+
+computerScoreCard.addEventListener("transitionend", () => {
+    computerScoreCard.classList.remove("playingRed");
 })
 
 // Determine the computer choice of rock, paper or scissors;
@@ -94,10 +104,12 @@ function updateScore(result) {
     
     switch(result) {
         case WIN:
-            playerSpam.textContent = `Player: ${++playerScore}`;
+            playerSpam.textContent = `${++playerScore}`;
+            flashPlayerScore();
             break;
         case LOSE:
-            computerSpam.textContent = `Computer: ${++computerScore}`;
+            computerSpam.textContent = `${++computerScore}`;
+            flashComputerScore();
             break;   
     }
 
@@ -126,4 +138,12 @@ function disableButtons() {
     buttons.forEach(btn => {
         btn.disabled = true;
     })
+}
+
+function flashPlayerScore() {
+    playerScoreCard.classList.add("playingGreen");
+}
+
+function flashComputerScore() {
+    computerScoreCard.classList.add("playingRed");
 }

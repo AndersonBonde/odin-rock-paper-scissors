@@ -11,12 +11,14 @@ const playerScoreCard = document.querySelector(".playerScoreCard");
 const computerScoreCard = document.querySelector(".computerScoreCard");
 
 buttonCards.forEach(curr => {
-    curr.addEventListener("click", () => {
-        let playerChoice = curr.dataset.value;
-
-        playRound(playerChoice);
-    })
+    curr.addEventListener("click", definePlayerChoice);
 })
+
+function definePlayerChoice() {
+    let playerChoice = this.dataset.value;
+    
+    playRound(playerChoice);
+}
 
 playerScoreCard.addEventListener("transitionend", () => {
     playerScoreCard.classList.remove("playingGreen");
@@ -149,21 +151,36 @@ function checkForWinner() {
         winnerPara.style.cssText = "color: green;";
         
         resultsDiv.appendChild(winnerPara);
-        disableButtons();
+        disableButtonCards();
     } else if(computerScore >= maxScore) {
         const winnerPara = document.createElement("p");
         winnerPara.textContent = "Computer wins!";
         winnerPara.style.cssText = "color: red;";
         
         resultsDiv.appendChild(winnerPara);        
-        disableButtons();
+        disableButtonCards();
     }
 }
 
-function disableButtons() {
-    buttons.forEach(btn => {
-        btn.disabled = true;
+function disableButtonCards() {
+    buttonCards.forEach(btn => {
+        btn.style.opacity = .5;
+
+        btn.removeEventListener("click", definePlayerChoice);
     })
+
+    appendResetButton();
+}
+
+function appendResetButton() {
+    let button = document.createElement("button");
+    button.textContent = "Reset";
+    button.style.cssText = "padding: .25rem .45rem;";
+    button.addEventListener("click", () => {
+        location.reload();
+    })
+
+    resultsDiv.appendChild(button);
 }
 
 function flashPlayerScore() {

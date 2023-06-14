@@ -13,7 +13,6 @@ const computerScoreCard = document.querySelector(".computerScoreCard");
 buttonCards.forEach(curr => {
     curr.addEventListener("click", () => {
         let playerChoice = curr.dataset.value;
-        console.log(playerChoice);
 
         playRound(playerChoice);
     })
@@ -82,16 +81,42 @@ function playRound(playerChoice) {
             break;
     }
 
-    displayRoundResult(result.message);
+    displayRoundResult(result.message, playerChoice, computerChoice);
     updateScore(result.result);
 }
 
+const rockIcon = '<i class="fa-solid fa-hand-back-fist fa-2xl"></i>';
+const paperIcon = '<i class="fa-solid fa-hand fa-2xl"></i>';
+const scissorsIcon = '<i class="fa-solid fa-hand-scissors fa-2xl"></i>';
+
 // Writes the result of the round in the browser;
-function displayRoundResult(message) {
+function displayRoundResult(message, playerChoice, computerChoice) {
     let newPara = document.createElement("p");
     newPara.textContent = message;
 
+    let playerIcon = parseChoiceIntoIcon(playerChoice);
+    let computerIcon = parseChoiceIntoIcon(computerChoice);
+    newPara.innerHTML += ` ${playerIcon} : ${computerIcon}`;
+    
     resultsDiv.appendChild(newPara);
+}
+
+function parseChoiceIntoIcon(text) {
+    let result;
+    
+    switch(text) {
+        case ROCK:
+            result = rockIcon;
+            break;
+        case PAPER:
+            result = paperIcon;
+            break;
+        case SCISSORS:
+            result = scissorsIcon;
+            break;
+    }
+
+    return result;
 }
 
 let playerScore = 0;
@@ -99,17 +124,17 @@ let computerScore = 0;
 let maxScore = 5;
 
 // Updates the score shown in the browser;
-function updateScore(result) {
-    const playerSpam = document.querySelector(".playerScore");
-    const computerSpam = document.querySelector(".computerScore");
-    
+const playerScoreSpam = document.querySelector(".playerScore");
+const computerScoreSpam = document.querySelector(".computerScore");
+
+function updateScore(result) {    
     switch(result) {
         case WIN:
-            playerSpam.textContent = `${++playerScore}`;
+            playerScoreSpam.textContent = `${++playerScore}`;
             flashPlayerScore();
             break;
         case LOSE:
-            computerSpam.textContent = `${++computerScore}`;
+            computerScoreSpam.textContent = `${++computerScore}`;
             flashComputerScore();
             break;   
     }

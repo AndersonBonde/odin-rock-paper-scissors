@@ -5,17 +5,18 @@ const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
 
-const buttons = document.querySelectorAll("button");
+const buttonCards = document.querySelectorAll(".buttonCard");
 const resultsDiv = document.querySelector(".results");
 const playerScoreCard = document.querySelector(".playerScoreCard");
 const computerScoreCard = document.querySelector(".computerScoreCard");
 
-buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        let playerChoice = btn.classList.value;
+buttonCards.forEach(curr => {
+    curr.addEventListener("click", () => {
+        let playerChoice = curr.dataset.value;
+        console.log(playerChoice);
 
         playRound(playerChoice);
-    });
+    })
 })
 
 playerScoreCard.addEventListener("transitionend", () => {
